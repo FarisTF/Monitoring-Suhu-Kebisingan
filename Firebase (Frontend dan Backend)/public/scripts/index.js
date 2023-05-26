@@ -49,16 +49,12 @@ const loadDataButtonElement = document.getElementById("load-data");
 const cardsCheckboxElement = document.querySelector(
     "input[name=cards-checkbox]"
 );
-const gaugesCheckboxElement = document.querySelector(
-    "input[name=gauges-checkbox]"
-);
 const chartsCheckboxElement = document.querySelector(
     "input[name=charts-checkbox]"
 );
 
 // DOM elements for sensor readings
 const cardsReadingsElement = document.querySelector("#cards-div");
-const gaugesReadingsElement = document.querySelector("#gauges-div");
 const chartsDivElement = document.querySelector("#charts-div");
 const tempElement = document.getElementById("temp");
 const humElement = document.getElementById("hum");
@@ -96,11 +92,9 @@ const setupUI = (user) => {
             console.log(chartRange);
             // Delete all data from charts to update with new values when a new range is selected
             chartT.destroy();
-            chartH.destroy();
             chartP.destroy();
-            // Render new charts to display new range of data
+            // Render new charts to display new ranmge of data
             chartT = createTemperatureChart();
-            chartH = createHumidityChart();
             chartP = createPressureChart();
             // Update the charts with the new range
             // Get the latest readings and plot them on charts (the number of plotted readings corresponds to the chartRange value)
@@ -111,12 +105,10 @@ const setupUI = (user) => {
                     var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
                     // Save values on variables
                     var temperature = jsonData.temperature;
-                    var humidity = jsonData.humidity;
                     var pressure = jsonData.pressure;
                     var timestamp = jsonData.timestamp;
                     // Plot the values on the charts
                     plotValues(chartT, timestamp, temperature);
-                    plotValues(chartH, timestamp, humidity);
                     plotValues(chartP, timestamp, pressure);
                 });
         });
@@ -133,14 +125,6 @@ const setupUI = (user) => {
                 cardsReadingsElement.style.display = "block";
             } else {
                 cardsReadingsElement.style.display = "none";
-            }
-        });
-        // Checbox (gauges for sensor readings)
-        gaugesCheckboxElement.addEventListener("change", (e) => {
-            if (gaugesCheckboxElement.checked) {
-                gaugesReadingsElement.style.display = "block";
-            } else {
-                gaugesReadingsElement.style.display = "none";
             }
         });
         // Checbox (charta for sensor readings)
@@ -160,12 +144,10 @@ const setupUI = (user) => {
             .on("child_added", (snapshot) => {
                 var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
                 var temperature = jsonData.temperature;
-                var humidity = jsonData.humidity;
                 var pressure = jsonData.pressure;
                 var timestamp = jsonData.timestamp;
                 // Update DOM elements
                 tempElement.innerHTML = temperature;
-                humElement.innerHTML = humidity;
                 presElement.innerHTML = pressure;
                 updateElement.innerHTML = epochToDateTime(timestamp);
             });
@@ -178,17 +160,8 @@ const setupUI = (user) => {
             .on("child_added", (snapshot) => {
                 var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
                 var temperature = jsonData.temperature;
-                var humidity = jsonData.humidity;
                 var pressure = jsonData.pressure;
                 var timestamp = jsonData.timestamp;
-                // Update DOM elements
-                var gaugeT = createTemperatureGauge();
-                var gaugeH = createHumidityGauge();
-                gaugeT.draw();
-                gaugeH.draw();
-                gaugeT.value = temperature;
-                gaugeH.value = humidity;
-                updateElement.innerHTML = epochToDateTime(timestamp);
             });
 
         // DELETE DATA
@@ -218,18 +191,21 @@ const setupUI = (user) => {
                     if (snapshot.exists()) {
                         var jsonData = snapshot.toJSON();
                         console.log(jsonData);
+                        var timestamp = jsonData.timestamp;
+                        var kamar = jsonData.kamar;
                         var temperature = jsonData.temperature;
                         var pressure = jsonData.pressure;
-                        pressure = pressure / 20;
-                        var timestamp = jsonData.timestamp;
-                        var batas = jsonData.batas;
+                        var isExceedTemp = jsonData.isExceedTemp;
+                        var isExceedNoise = jsonData.isExceedNoise;
                         var content = "";
                         content += "<tr>";
+                        content += "<td>" + kamar + "</td>";
                         content +=
                             "<td>" + epochToDateTime(timestamp) + "</td>";
                         content += "<td>" + temperature + "</td>";
                         content += "<td>" + pressure + "</td>";
-                        content += "<td>" + batas + "</td>";
+                        content += "<td>" + isExceedTemp + "</td>";
+                        content += "<td>" + isExceedNoise + "</td>";
                         content += "</tr>";
                         $("#tbody").prepend(content);
                         // Save lastReadingTimestamp --> corresponds to the first timestamp on the returned snapshot data
@@ -268,20 +244,23 @@ const setupUI = (user) => {
                                 // ignore first reading (it's already on the table from the previous query)
                                 firstTime = false;
                             } else {
+                                var kamar = element.kamar;
+                                var timestamp = element.timestamp;
                                 var temperature = element.temperature;
                                 var pressure = element.pressure;
-                                pressure = pressure / 20;
-                                var timestamp = element.timestamp;
-                                var batas = jsonData.batas;
+                                var isExceedTemp = element.isExceedTemp;
+                                var isExceedNoise = element.isExceedNoise;
                                 var content = "";
                                 content += "<tr>";
+                                content += "<td>" + kamar + "</td>";
                                 content +=
                                     "<td>" +
                                     epochToDateTime(timestamp) +
                                     "</td>";
                                 content += "<td>" + temperature + "</td>";
                                 content += "<td>" + pressure + "</td>";
-                                content += "<td>" + batas + "</td>";
+                                content += "<td>" + isExceedTemp + "</td>";
+                                content += "<td>" + isExceedNoise + "</td>";
                                 content += "</tr>";
                                 $("#tbody").append(content);
                             }

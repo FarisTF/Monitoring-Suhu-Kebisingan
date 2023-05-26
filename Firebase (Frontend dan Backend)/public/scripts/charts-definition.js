@@ -3,7 +3,6 @@ window.addEventListener("load", onload);
 
 function onload(event) {
     chartT = createTemperatureChart();
-    chartH = createHumidityChart();
     chartP = createPressureChart();
 }
 
@@ -16,7 +15,7 @@ function createTemperatureChart() {
         },
         series: [
             {
-                name: "BMP280",
+                name: "Kamar 1A",
             },
         ],
         title: {
@@ -36,49 +35,7 @@ function createTemperatureChart() {
         },
         yAxis: {
             title: {
-                text: "Temperature Celsius Degrees",
-            },
-        },
-        credits: {
-            enabled: false,
-        },
-    });
-    return chart;
-}
-
-// Create Humidity Chart
-function createHumidityChart() {
-    var chart = new Highcharts.Chart({
-        chart: {
-            renderTo: "chart-humidity",
-            type: "spline",
-        },
-        series: [
-            {
-                name: "BMP280",
-            },
-        ],
-        title: {
-            text: undefined,
-        },
-        plotOptions: {
-            line: {
-                animation: false,
-                dataLabels: {
-                    enabled: true,
-                },
-            },
-            series: {
-                color: "#50b8b4",
-            },
-        },
-        xAxis: {
-            type: "datetime",
-            dateTimeLabelFormats: { second: "%H:%M:%S" },
-        },
-        yAxis: {
-            title: {
-                text: "Humidity (%)",
+                text: "Suhu (Celsius)",
             },
         },
         credits: {
@@ -97,7 +54,7 @@ function createPressureChart() {
         },
         series: [
             {
-                name: "BMP280",
+                name: "Kamar 1A",
             },
         ],
         title: {
@@ -120,7 +77,7 @@ function createPressureChart() {
         },
         yAxis: {
             title: {
-                text: "Pressure (hPa)",
+                text: "Kebisingan (dB)",
             },
         },
         credits: {

@@ -102,13 +102,6 @@
                     name="cards-checkbox"
                     checked
                 />
-                Gauges:
-                <input
-                    type="checkbox"
-                    id="gauges-checkbox"
-                    name="gauges-checkbox"
-                    checked
-                />
                 Charts:
                 <input
                     type="checkbox"
@@ -126,7 +119,7 @@
                                 class="fas fa-thermometer-half"
                                 style="color: #059e8a"
                             ></i>
-                            TEMPERATURE
+                            SUHU
                         </p>
                         <p>
                             <span class="reading"
@@ -141,7 +134,7 @@
                                 class="fas fa-angle-double-down"
                                 style="color: #e1e437"
                             ></i>
-                            SOUND LEVEL
+                            KEBISINGAN
                         </p>
                         <p>
                             <span class="reading"
@@ -150,10 +143,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
-            <!--GAUGES-->
-            <div id="gauges-div">
-                <div class="cards"></div>
             </div>
 
             <!--CHARTS-->
@@ -173,22 +162,12 @@
                                 class="fas fa-thermometer-half"
                                 style="color: #059e8a"
                             ></i>
-                            TEMPERATURE CHART
+                            CHART SUHU
                         </p>
                         <div
                             id="chart-temperature"
                             class="chart-container"
                         ></div>
-                    </div>
-                </div>
-                <!--HUMIDITY-CHART-->
-                <div class="cards">
-                    <div class="card">
-                        <p>
-                            <i class="fas fa-tint" style="color: #00add6"></i>
-                            HUMIDITY CHART
-                        </p>
-                        <div id="chart-humidity" class="chart-container"></div>
                     </div>
                 </div>
                 <!--PRESSURE-CHART-->
@@ -199,7 +178,7 @@
                                 class="fas fa-angle-double-down"
                                 style="color: #e1e437"
                             ></i>
-                            SOUND LEVEL CHART
+                            CHART KEBISINGAN
                         </p>
                         <div id="chart-pressure" class="chart-container"></div>
                     </div>
@@ -259,10 +238,12 @@
                 <div class="card" id="table-container" style="display: none">
                     <table id="readings-table">
                         <tr id="theader">
+                            <th>Kamar</th>
                             <th>Timestamp</th>
-                            <th>Temp (ºC)</th>
-                            <th>Sound Level (dB)</th>
-                            <th>Melebihi Batas</th>
+                            <th>Suhu (ºC)</th>
+                            <th>Kebisingan (dB)</th>
+                            <th>isExceedTemp</th>
+                            <th>isExceedNoise</th>
                         </tr>
                         <tbody id="tbody"></tbody>
                     </table>
